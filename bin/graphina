@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+
+require 'graphina'
+require 'term/ansicolor'
+include Tins::GO
+require 'shellwords'
+
+def usage
+  puts <<~EOT
+  Usage: #{File.basename($0)} [OPTIONS]
+
+    OPTIONS are
+
+      -t TITLE      Title for the graph (default: 'Data')
+      -n SECONDS    Update interval in seconds (default: 5)
+      -r MODE       Resolution mode (:single or :double, default: :double)
+      -f COLOR      Foreground color (default: :white)
+      -b COLOR      Background color (default: :black)
+      -c COLOR      Primary color (default: derived from title)
+      -C COLOR      Secondary color (default: derived from primary)
+      -F FORMAT     Format function (:as_bytes, :as_hertz, :as_celsius, :as_percent, :as_default, default: :as_default)
+      -h            this help
+
+    Examples:
+
+      graphina                              # Basic usage with random data
+      graphina -t "CPU Usage"               # Custom title
+      graphina -t "Memory" -f blue -b black # Custom colors
+      graphina -t "Network" -r single -n 2  # Single resolution, 2 second updates
+      # Full example
+      graphina -t 'CPU Usage' -n 1 -F as_percent -e "top -l 1 -n 0 | grep 'CPU usage' | awk '{print \\$3+\\$5}' | sed 's/%//'"
+
+  EOT
+  0
+end
+
+$opts = go 't:n:r:f:b:c:C:F:e:h', defaults: {
+  ?t => 'Data',
+  ?n => 5,
+  ?r => :double,
+  ?f => :white,
+  ?b => :black,
+  ?F => :as_default,
+}
+
+$opts[?h] and exit usage
+
+sleep_duration = [ 0.01, $opts[?n].to_f ].max
+format_value   = $opts[?F].to_sym
+value = if $opts[?e]
+          -> _ { `#{$opts[?e]}`.to_f }
+        else
+          -> _ { rand(100) }
+        end
+graph = Graphina::Graph.new(
+  title:            $opts[?t],
+  sleep:            sleep_duration,
+  value:,
+  true_coloring:    ENV['COLORTERM'] =~ /\A(truecolor|24bit)\z/,
+  color:            $opts[?c],
+  color_secondary:  $opts[?C],
+  foreground_color: $opts[?f],
+  background_color: $opts[?b],
+  resolution:       $opts[?r],
+  format_value:
+)
+graph.start
