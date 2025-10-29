@@ -19,6 +19,7 @@ def usage
       -c COLOR      Primary color (default: derived from title)
       -C COLOR      Secondary color (default: derived from primary)
       -F FORMAT     Format function (:as_bytes, :as_hertz, :as_celsius, :as_percent, :as_default, default: :as_default)
+      -e COMMAND    External command to execute for data values (default: random data)
       -h            this help
 
     Examples:
@@ -27,8 +28,9 @@ def usage
       graphina -t "CPU Usage"               # Custom title
       graphina -t "Memory" -f blue -b black # Custom colors
       graphina -t "Network" -r single -n 2  # Single resolution, 2 second updates
-      # Full example
-      graphina -t 'CPU Usage' -n 1 -F as_percent -e "top -l 1 -n 0 | grep 'CPU usage' | awk '{print \\$3+\\$5}' | sed 's/%//'"
+      # Full examples
+      graphina -t 'CPU Usage (%)' -n 1 -F as_percent -e "top -l 1 -n 0 | awk '/^CPU usage:/ { print \\$3 + \\$5 }'"
+      graphina -t 'Memory' -n 1 -F as_bytes -e "free -b | awk '/^Mem:/ { print \\$4 }'"
 
   EOT
   0
