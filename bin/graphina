@@ -36,34 +36,37 @@ def usage
   0
 end
 
-$opts = go 't:n:r:f:b:c:C:F:e:h', defaults: {
-  ?t => 'Data',
-  ?n => 5,
-  ?r => :double,
-  ?f => :white,
-  ?b => :black,
-  ?F => :as_default,
-}
+$opts = go 't:n:r:f:b:c:C:F:e:P:h'
 
 $opts[?h] and exit usage
 
-sleep_duration = [ 0.01, $opts[?n].to_f ].max
-format_value   = $opts[?F].to_sym
-value = if $opts[?e]
-          -> _ { `#{$opts[?e]}`.to_f }
-        else
-          -> _ { rand(100) }
-        end
+panel = Graphina::Panel.new
+case
+when panel_name = $opts[?P]
+  if panel_config = Graphina::GraphinaConfig::PANELS[panel_name]
+    panel.configure(panel_config)
+  else
+    STDERR.puts "No panel named #{panel_name.inspect} defined!"
+    exit 1
+  end
+when panels = Graphina::GraphinaConfig::PANELS
+  unless panel = Graphina::Panel::Chooser.choose(panels) 
+    STDERR.puts "No panel chosen."
+    exit 0
+  end
+else
+  panel.configure_from_opts($opts)
+end
 graph = Graphina::Graph.new(
-  title:            $opts[?t],
-  sleep:            sleep_duration,
-  value:,
+  title:            panel.title,
+  sleep:            panel.interval,
+  value:            panel.value,
   true_coloring:    ENV['COLORTERM'] =~ /\A(truecolor|24bit)\z/,
-  color:            $opts[?c],
-  color_secondary:  $opts[?C],
-  foreground_color: $opts[?f],
-  background_color: $opts[?b],
-  resolution:       $opts[?r],
-  format_value:
+  color:            panel.color,
+  color_secondary:  panel.color_secondary,
+  foreground_color: panel.foreground_color,
+  background_color: panel.background_color,
+  resolution:       panel.resolution,
+  format_value:     panel.format_value,
 )
 graph.start
