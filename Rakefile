@@ -35,6 +35,9 @@ GemHadar do
 
   dependency  'tins',             '~> 1.45'
   dependency  'term-ansicolor',   '~> 1.11'
+  dependency  'const_conf',       '~> 0.4', '>= 0.4.3'
+  dependency  'amatch',           '~> 0.5'
+  dependency  'search_ui'
   development_dependency 'debug', '~> 1.0'
 
   licenses << 'MIT'
