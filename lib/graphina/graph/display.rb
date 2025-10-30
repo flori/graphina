@@ -46,9 +46,6 @@ class Graphina::Graph
     # array of Cell objects that represent the display grid, filling each cell
     # with a space character and default styling attributes
     #
-    # @param color [ Symbol ] the default text color for the display
-    # @param on_color [ Symbol ] the default background color for the display
-    #
     # @return [ Graphina::Graph::Display ] returns the Display instance to allow
     #   for method chaining
     def clear
