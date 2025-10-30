@@ -28,6 +28,8 @@ Complete API documentation is available at: [GitHub.io](https://flori.github.io/
 - **Signal Handling**: Graceful shutdown and terminal resize handling
 - **String-based Color Derivation**: Automatically derive consistent colors
   from titles and labels
+- **Panel Configuration System**: Predefined panel configurations for reuse
+- **Interactive Selection**: Choose from available panels with fuzzy matching
 
 ## Installation
 
@@ -72,7 +74,17 @@ graphina -t "CPU Usage (faked)" -f blue -b black
 graphina -t 'CPU Usage' -n 1 -F as_percent -e "top -l 1 -n 0 | grep 'CPU usage' | awk '{print \$3+\$5}' | sed 's/%//'"
 ```
 
-### 4. Custom Data Source
+### 4. Using Predefined Panels
+
+```bash
+# Use a predefined panel configuration
+graphina -P cpu
+
+# Interactive panel selection
+graphina
+```
+
+### 5. Custom Data Source
 
 ```ruby
 # Using the library directly in Ruby code
@@ -88,7 +100,7 @@ graph = Graphina::Graph.new(
 graph.start
 ```
 
-### 5. Custom Command with External Data
+### 6. Custom Command with External Data
 
 ```ruby
 # Using external command for data
@@ -99,6 +111,36 @@ graph = Graphina::Graph.new(
   sleep: 2
 )
 graph.start
+```
+
+## Panel Configuration
+
+Graphina now supports predefined panel configurations. Create a `panels.yml` file in your configuration directory (`~/.config/graphina/panels.yml`) to define reusable panel setups:
+
+```yaml
+cpu:
+  title: "CPU Usage (%)"
+  interval: 1
+  command: "top -l 1 -n 0 | awk '/^CPU usage:/ { print \$3 + \$5 }'"
+  format_value: as_percent
+  color: '#ff5f00'
+memory:
+  title: "Memory Usage"
+  interval: 1
+  command: "free -b | awk '/^Mem:/ { print \$4 }'"
+  format_value: as_bytes
+  color: '#87d700'
+  color_secondary: '#d7ff00'
+```
+
+To use a specific panel:
+```bash
+graphina -P cpu
+```
+
+To see all available panels:
+```bash
+graphina
 ```
 
 ## Command Line Options
@@ -116,6 +158,8 @@ Usage: graphina [OPTIONS]
     -c COLOR      Primary color (default: derived from title)
     -C COLOR      Secondary color (default: derived from primary)
     -F FORMAT     Format function (:as_bytes, :as_hertz, :as_celsius, :as_percent, :as_default, default: :as_default)
+    -e COMMAND    External command to execute for data values (default: random data)
+    -P PANEL      Panel name to use from configuration (default: interactive selection)
     -h            this help
 ```
 
