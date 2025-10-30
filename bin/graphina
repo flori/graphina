@@ -19,6 +19,7 @@ def usage
       -c COLOR      Primary color (default: derived from title)
       -C COLOR      Secondary color (default: derived from primary)
       -F FORMAT     Format function (:as_bytes, :as_hertz, :as_celsius, :as_percent, :as_default, default: :as_default)
+      -P PANEL      Use predefined panel configuration (default: interactive selection)
       -e COMMAND    External command to execute for data values (default: random data)
       -h            this help
 
