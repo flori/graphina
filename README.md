@@ -115,7 +115,9 @@ graph.start
 
 ## Panel Configuration
 
-Graphina now supports predefined panel configurations. Create a `panels.yml` file in your configuration directory (`~/.config/graphina/panels.yml`) to define reusable panel setups:
+Graphina now supports predefined panel configurations. Create a `panels.yml`
+file in your configuration directory (`~/.config/graphina/panels.yml`) to
+define reusable panel setups:
 
 ```yaml
 cpu:
