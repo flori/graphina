@@ -49,6 +49,8 @@ when panel_name = $opts[?P]
     STDERR.puts "No panel named #{panel_name.inspect} defined!"
     exit 1
   end
+when $opts[?e]
+  panel.configure_from_opts($opts)
 when panels = Graphina::GraphinaConfig::PANELS
   unless panel = Graphina::Panel::Chooser.choose(panels) 
     STDERR.puts "No panel chosen."
