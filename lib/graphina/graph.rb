@@ -286,8 +286,8 @@ class Graphina::Graph
   #
   # This method applies the appropriate formatting to a value based on the
   # \@format_value instance variable configuration It supports different
-  # formatting approaches including custom Proc objects, Symbol-based method
-  # calls, and default formatting
+  # formatting approaches including custom Proc objects, String- or
+  # Symbol-based method calls, and default formatting
   #
   # @param value [ Object ] the value to be formatted according to the configured strategy
   #
@@ -296,7 +296,7 @@ class Graphina::Graph
     case @format_value
     when Proc
       @format_value.(value)
-    when Symbol
+    when Symbol, String
       send(@format_value, value)
     else
       send(:as_default, value)
