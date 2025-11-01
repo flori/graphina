@@ -120,19 +120,32 @@ file in your configuration directory (`"$XDG_CONFIG_HOME/graphina"`, usually
 `~/.config/graphina/panels.yml`) to define reusable panel setups:
 
 ```yaml
-cpu:
+cpu_usage_percentage:
   title: "CPU Usage (%)"
   interval: 1
-  command: "top -l 1 -n 0 | awk '/^CPU usage:/ { print \$3 + \$5 }'"
+  command: "top -l 1 -n 0 | awk '/^CPU usage:/ { printf \"%.1f\", $3 + $5 }'"
   format_value: as_percent
   color: '#ff5f00'
-memory:
+memory_usage:
   title: "Memory Usage"
   interval: 1
-  command: "free -b | awk '/^Mem:/ { print \$4 }'"
+  command: "free -b | awk '/^Mem:/ { print $4 }'"
   format_value: as_bytes
+  color: '#00d787'
+  color_secondary: '#00ffd7'
+memory_usage_percentage:
+  title: "Memory Usage (%)"
+  interval: 1
+  command: "free -b | awk '/^Mem:/ { printf \"%.1f\", 100 * $4 / $2 }'"
+  format_value: as_percent
   color: '#87d700'
   color_secondary: '#d7ff00'
+cpu_temperature:
+  title: "CPU Temperature ℃ "
+  interval: 1
+  command: "osx-cpu-temp -C | tr -dc '0-9.'"
+  format_value: as_celsius
+  color: '#aa0000'
 ```
 
 To use a specific panel:
