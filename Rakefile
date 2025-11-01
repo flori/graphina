@@ -20,7 +20,7 @@ GemHadar do
   EOT
   test_dir    'spec'
   ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock', '.AppleDouble', '.bundle',
-    '.yardoc', 'tags', 'doc'
+    '.yardoc', 'tags', 'doc', 'cscope.out'
   package_ignore '.gitignore', '.contexts', '.github'
 
   readme      'README.md'
