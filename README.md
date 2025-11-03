@@ -5,10 +5,13 @@
 A Ruby gem for creating terminal-based data visualizations with real-time
 graphical displays using Unicode characters and ANSI styling 🎨📊
 
+## Screenshots (run in tmux)
+
+![graphina Screenshot](./img/graphina.png "graphina Screenshot")
+
 ## Documentation
 
 Complete API documentation is available at: [GitHub.io](https://flori.github.io/graphina/)
-
 
 ## Features
 
