@@ -156,20 +156,27 @@ cpu_temperature:
 Example for Linux:
 
 ```yaml
-cpu:
+cpu_usage_percentage:
   title: "CPU Usage (%)"
   interval: 1
   command: "top -b -n 1 | awk '/^%Cpu\\(s\\)/ { print $2 + $4 + $6 }'"
   format_value: as_percent
   color: '#ff5f00'
-memory:
+memory_usage:
   title: "Memory Usage"
   interval: 1
   command: "free -b | awk '/^Mem:/ { print $3 }'"
   format_value: as_bytes
   color: '#87d700'
   color_secondary: '#d7ff00'
-temperature:
+memory_usage_percentage:
+  title: "Memory Usage (%)"
+  interval: 1
+  command: "free -b | awk '/^Mem:/ { printf \"%.1f\", 100 * $3 / $2 }'"
+  format_value: as_percent
+  color: '#87d700'
+  color_secondary: '#d7ff00'
+cpu_temperature:
   title: "CPU Temperature ℃ "
   interval: 1
   command: "sensors | awk '/^Tctl:/ { print $2 }' | tr -dc '0-9.'"
