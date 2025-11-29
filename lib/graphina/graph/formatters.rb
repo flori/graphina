@@ -62,7 +62,7 @@ class Graphina::Graph
     #
     # @return [ String ] the temperature value formatted with a degree Celsius symbol
     def as_celsius(value)
-      "#{value}°"
+      "#{value}℃"
     end
 
     # The as_percent method formats a numeric value as a percentage string
