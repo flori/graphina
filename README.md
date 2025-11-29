@@ -120,7 +120,9 @@ graph.start
 
 Graphina now supports predefined panel configurations. Create a `panels.yml`
 file in your configuration directory (`"$XDG_CONFIG_HOME/graphina"`, usually
-`~/.config/graphina/panels.yml`) to define reusable panel setups:
+`~/.config/graphina/panels.yml`) to define reusable panel setups.
+
+Example for MacOS:
 
 ```yaml
 cpu_usage_percentage:
@@ -149,6 +151,30 @@ cpu_temperature:
   command: "osx-cpu-temp -C | tr -dc '0-9.'"
   format_value: as_celsius
   color: '#aa0000'
+```
+
+Example for Linux:
+
+```yaml
+cpu:
+  title: "CPU Usage (%)"
+  interval: 1
+  command: "top -b -n 1 | awk '/^%Cpu\\(s\\)/ { print $2 + $4 + $6 }'"
+  format_value: as_percent
+  color: '#ff5f00'
+memory:
+  title: "Memory Usage"
+  interval: 1
+  command: "free -b | awk '/^Mem:/ { print $3 }'"
+  format_value: as_bytes
+  color: '#87d700'
+  color_secondary: '#d7ff00'
+temperature:
+  title: "CPU Temperature ℃ "
+  interval: 1
+  command: "sensors | awk '/^Tctl:/ { print $2 }' | tr -dc '0-9.'"
+  format_value: as_celsius
+  color: '#ff0000'
 ```
 
 To use a specific panel:
