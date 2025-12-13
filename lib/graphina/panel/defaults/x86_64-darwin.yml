@@ -1,0 +1,35 @@
+cpu_usage_percentage:
+  title: "CPU Usage (%)"
+  interval: 1
+  command: |
+    top -l 1 -n 0 | awk '/^CPU usage:/ { printf "%.1f", $3 + $5 }'
+  format_value: as_percent
+  color: '#fe8019'
+cpu_temperature:
+  title: "CPU Temperature (℃) "
+  interval: 1
+  command: |
+    osx-cpu-temp -C | tr -dc '0-9.'
+  format_value: as_celsius
+  color: '#fb4934'
+cpu_clock_average:
+  title: "CPU Clock Speed (MHz)"
+  interval: 1
+  command: |
+    sudo bash -c 'powermetrics --show-usage-summary -s cpu_power & pid=$!; sleep 1; kill $pid'| awk '/CPU Average/ { count++; gsub(/.*\(/, ""); gsub(/\ .*/, ""); sum += $0 } END { if (count > 0) { print 1000000*sum/count } else { print 0 } }'
+  format_value: as_hertz
+  color: '#b8bb26'
+memory_usage:
+  title: "Memory Usage"
+  interval: 1
+  command: |
+    free -b | awk '/^Mem:/ { print $4 }'
+  format_value: as_bytes
+  color: '#689d6a'
+memory_usage_percentage:
+  title: "Memory Usage (%)"
+  interval: 1
+  command: |
+    free -b | awk '/^Mem:/ { printf "%.1f", 100 * $4 / $2 }'
+  format_value: as_percent
+  color: '#689d6a'

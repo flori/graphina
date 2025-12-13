@@ -20,6 +20,7 @@ def usage
       -C COLOR      Secondary color (default: derived from primary)
       -F FORMAT     Format function (:as_bytes, :as_hertz, :as_celsius, :as_percent, :as_default, default: :as_default)
       -P PANEL      Use predefined panel configuration (default: interactive selection)
+      -S CONFIG     Setup panel config (default infers from OS)
       -e COMMAND    External command to execute for data values (default: random data)
       -h            this help
 
@@ -37,9 +38,14 @@ def usage
   0
 end
 
-$opts = go 't:n:r:f:b:c:C:F:e:P:h'
+$opts = go 't:n:r:f:b:c:C:F:e:P:S:h'
 
 $opts[?h] and exit usage
+if $opts[?S]
+  setup = Graphina::Setup.new(default_panels_name: $opts[?S])
+  setup.install_default_panels
+  exit
+end
 
 panel = Graphina::Panel.new
 case

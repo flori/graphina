@@ -13,6 +13,7 @@ require 'tins'
 module Graphina
 end
 require 'graphina/version'
+require 'graphina/setup'
 require 'graphina/graphina_config'
 require 'graphina/panel'
 require 'graphina/graph'

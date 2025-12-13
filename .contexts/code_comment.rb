@@ -11,7 +11,11 @@ context do
 
   namespace "lib" do
     Dir['lib/**/*.rb'].each do |filename|
-      file filename, tags: 'lib'
+      file filename, tags: %w[ lib code ]
+    end
+
+    Dir['lib/**/*.yml'].each do |filename|
+      file filename, tags: %w[ lib config ]
     end
   end
 

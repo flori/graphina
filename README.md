@@ -54,12 +54,47 @@ Or install the gem directly:
 gem install graphina
 ```
 
+## Panel Configuration Setup
+
+Graphina now supports predefined panel configurations. You can create a
+`panels.yml` file in your configuration directory
+(`"$XDG_CONFIG_HOME/graphina"`, usually `~/.config/graphina/panels.yml`) to
+define reusable panel setups.
+
+To install one of the included defaults you can try
+```bash
+graphina -S default
+```
+
+which attempts to infer a default config for your platform.
+
+
+Currently these platforms are included:
+
+  - MacOS x86 64 see [x86_64-darwin](lib/graphina/panel/defaults/x86_64-darwin.yml).
+  - Linux x86 64 see [x86_64-linux](lib/graphina/panel/defaults/x86_64-linux.yml).
+
+These can be installed eplicitly via:
+```bash
+graphina -S x86_64-darwin
+```
+
+Then to use a specific panel:
+```bash
+graphina -P cpu_usage_percentage
+```
+
+To see all available panels:
+```bash
+graphina
+```
+
 ## Usage
 
 ### 1. Basic Usage with Random Data
 
 ```bash
-# Simple usage with random data
+# Simple usage with random data or interactive panel selection
 graphina
 ```
 
@@ -74,18 +109,21 @@ graphina -t "CPU Usage (faked)" -f blue -b black
 
 ```bash
 # Monitor CPU usage in real-time
-graphina -t 'CPU Usage' -n 1 -F as_percent -e "top -l 1 -n 0 | grep 'CPU usage' | awk '{print \$3+\$5}' | sed 's/%//'"
+graphina -t 'CPU Usage' -n 1 -F as_percent -e "top -l 1 -n 0 | grep 'CPU usage' | awk '{print \$3+\$5}'"
 ```
 
 ### 4. Using Predefined Panels
 
 ```bash
 # Use a predefined panel configuration
-graphina -P cpu
+graphina -P cpu_usage_percentage
 
 # Interactive panel selection
 graphina
 ```
+
+See below under **Panel Configuration** how to setup these panel configurations
+on your system.
 
 ### 5. Custom Data Source
 
@@ -116,84 +154,6 @@ graph = Graphina::Graph.new(
 graph.start
 ```
 
-## Panel Configuration
-
-Graphina now supports predefined panel configurations. Create a `panels.yml`
-file in your configuration directory (`"$XDG_CONFIG_HOME/graphina"`, usually
-`~/.config/graphina/panels.yml`) to define reusable panel setups.
-
-Example for MacOS:
-
-```yaml
-cpu_usage_percentage:
-  title: "CPU Usage (%)"
-  interval: 1
-  command: "top -l 1 -n 0 | awk '/^CPU usage:/ { printf \"%.1f\", $3 + $5 }'"
-  format_value: as_percent
-  color: '#ff5f00'
-memory_usage:
-  title: "Memory Usage"
-  interval: 1
-  command: "free -b | awk '/^Mem:/ { print $4 }'"
-  format_value: as_bytes
-  color: '#00d787'
-  color_secondary: '#00ffd7'
-memory_usage_percentage:
-  title: "Memory Usage (%)"
-  interval: 1
-  command: "free -b | awk '/^Mem:/ { printf \"%.1f\", 100 * $4 / $2 }'"
-  format_value: as_percent
-  color: '#87d700'
-  color_secondary: '#d7ff00'
-cpu_temperature:
-  title: "CPU Temperature ℃ "
-  interval: 1
-  command: "osx-cpu-temp -C | tr -dc '0-9.'"
-  format_value: as_celsius
-  color: '#aa0000'
-```
-
-Example for Linux:
-
-```yaml
-cpu_usage_percentage:
-  title: "CPU Usage (%)"
-  interval: 1
-  command: "top -b -n 1 | awk '/^%Cpu\\(s\\)/ { print $2 + $4 + $6 }'"
-  format_value: as_percent
-  color: '#ff5f00'
-memory_usage:
-  title: "Memory Usage"
-  interval: 1
-  command: "free -b | awk '/^Mem:/ { print $3 }'"
-  format_value: as_bytes
-  color: '#87d700'
-  color_secondary: '#d7ff00'
-memory_usage_percentage:
-  title: "Memory Usage (%)"
-  interval: 1
-  command: "free -b | awk '/^Mem:/ { printf \"%.1f\", 100 * $3 / $2 }'"
-  format_value: as_percent
-  color: '#87d700'
-  color_secondary: '#d7ff00'
-cpu_temperature:
-  title: "CPU Temperature ℃ "
-  interval: 1
-  command: "sensors | awk '/^Tctl:/ { print $2 }' | tr -dc '0-9.'"
-  format_value: as_celsius
-  color: '#ff0000'
-```
-
-To use a specific panel:
-```bash
-graphina -P cpu
-```
-
-To see all available panels:
-```bash
-graphina
-```
-
 ## Command Line Options
 
 ```
@@ -209,8 +169,9 @@ Usage: graphina [OPTIONS]
     -c COLOR      Primary color (default: derived from title)
     -C COLOR      Secondary color (default: derived from primary)
     -F FORMAT     Format function (:as_bytes, :as_hertz, :as_celsius, :as_percent, :as_default, default: :as_default)
+    -P PANEL      Use predefined panel configuration (default: interactive selection)
+    -S CONFIG     Setup panel config (default infers from OS)
     -e COMMAND    External command to execute for data values (default: random data)
-    -P PANEL      Panel name to use from configuration (default: interactive selection)
     -h            this help
 ```
 
