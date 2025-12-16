@@ -43,7 +43,7 @@ class Graphina::Setup
   #   not exist
   def infer_default_panels_path_from_platform
     case RUBY_PLATFORM
-    when /\Ax86_64-darwin/, /\Ax86_64-linux/
+    when /\A(x86_64|arm64)-darwin/, /\Ax86_64-linux/
       path = default_panels_path($&)
       if path.exist?
         path

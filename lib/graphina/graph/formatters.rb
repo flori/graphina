@@ -50,7 +50,10 @@ class Graphina::Graph
     #
     # @return [ String ] the formatted frequency representation with unit suffix
     def as_hertz(value)
-      Tins::Unit.format(value, prefix: :uc, format: '%.3f%U', unit: 'Hz')
+      prefix = [
+        '', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y',
+      ].each_with_index.map { |n, i| Tins::Unit::Prefix.new(n.freeze, 1000, 1000 ** i, false) }.freeze
+      Tins::Unit.format(value, prefix:, format: '%.3f%U', unit: 'Hz')
     end
 
     # The as_celsius method formats a temperature value with a degree symbol
