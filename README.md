@@ -66,12 +66,12 @@ To install one of the included defaults you can try
 graphina -S default
 ```
 
-which attempts to infer a default config for your platform.
-
+which attempts to infer a default config for your platform and install it.
 
 Currently these platforms are included:
 
   - MacOS x86 64 see [x86_64-darwin](lib/graphina/panel/defaults/x86_64-darwin.yml).
+  - MacOS ARM 64 see [arm64-darwin](lib/graphina/panel/defaults/arm64-darwin.yml).
   - Linux x86 64 see [x86_64-linux](lib/graphina/panel/defaults/x86_64-linux.yml).
 
 These can be installed eplicitly via:
@@ -109,7 +109,7 @@ graphina -t "CPU Usage (faked)" -f blue -b black
 
 ```bash
 # Monitor CPU usage in real-time
-graphina -t 'CPU Usage' -n 1 -F as_percent -e "top -l 1 -n 0 | grep 'CPU usage' | awk '{print \$3+\$5}'"
+graphina -t 'CPU Usage' -n 1 -F as_percent -e "top -l 1 -n 0 | awk '/^CPU usage/ {print \$3 + \$5}'"
 ```
 
 ### 4. Using Predefined Panels
@@ -147,7 +147,7 @@ graph.start
 # Using external command for data
 graph = Graphina::Graph.new(
   title: 'Temperature',
-  value: ->(i) { `sensors | grep 'Tctl' | awk '{print \$2}'`.to_f },
+  value: ->(i) { `sensors | awk '/^Tctl/ {print \$2}'`.to_f },
   format_value: :as_celsius,
   sleep: 2
 )
