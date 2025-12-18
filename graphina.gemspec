@@ -18,14 +18,14 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT".freeze]
   s.rdoc_options = ["--title".freeze, "Graphina - Gem for creating terminal-based data visualizations with real-time\ngraphical displays using Unicode characters and ANSI styling.\n".freeze, "--main".freeze, "README.md".freeze]
   s.required_ruby_version = Gem::Requirement.new(">= 3.1".freeze)
-  s.rubygems_version = "3.7.2".freeze
+  s.rubygems_version = "4.0.2".freeze
   s.summary = "Gem for creating terminal-based data visualizations with real-time graphical displays using Unicode characters and ANSI styling.".freeze
 
   s.specification_version = 4
 
   s.add_development_dependency(%q<gem_hadar>.freeze, ["~> 2.8".freeze])
   s.add_development_dependency(%q<debug>.freeze, ["~> 1.0".freeze])
-  s.add_runtime_dependency(%q<tins>.freeze, ["~> 1.45".freeze])
+  s.add_runtime_dependency(%q<tins>.freeze, ["~> 1.49".freeze])
   s.add_runtime_dependency(%q<term-ansicolor>.freeze, ["~> 1.11".freeze])
   s.add_runtime_dependency(%q<const_conf>.freeze, ["~> 0.4".freeze, ">= 0.4.3".freeze])
   s.add_runtime_dependency(%q<amatch>.freeze, ["~> 0.5".freeze])

@@ -33,7 +33,7 @@ GemHadar do
 
   executables << 'graphina'
 
-  dependency  'tins',             '~> 1.45'
+  dependency  'tins',             '~> 1.49'
   dependency  'term-ansicolor',   '~> 1.11'
   dependency  'const_conf',       '~> 0.4', '>= 0.4.3'
   dependency  'amatch',           '~> 0.5'
