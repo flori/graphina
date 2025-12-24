@@ -1,10 +1,37 @@
 #!/usr/bin/env ruby
+# Graphina - Terminal-based Real-time Data Visualization
+#
+# Graphina creates dynamic, real-time graphical displays in terminal
+# environments using Unicode block characters and ANSI color codes. It supports
+# various data sources, formatting options, and customizable display
+# configurations.
+#
+# Features:
+# - Real-time graphing with smooth terminal updates
+# - Multiple resolution modes (:single or :double)
+# - Customizable colors, titles, and formatting
+# - Support for external command data sources
+# - Interactive panel selection
+# - Terminal resize handling
+# - Cross-platform configuration using XDG Base Directory spec
+#
+# See 'graphina -h' for full command-line options and examples.
 
 require 'graphina'
 require 'term/ansicolor'
 include Tins::GO
 require 'shellwords'
 
+# The usage method displays the command-line help text for the graphina
+# application
+#
+# This method prints a formatted help message to standard output that describes
+# all available command-line options, their default values, and provides usage
+# examples for different scenarios including basic usage, custom titles,
+# colors, and specific # data source configurations
+#
+# @return [ Integer ] returns 0 to indicate successful help display as exit
+#   code.
 def usage
   puts <<~EOT
   Usage: #{File.basename($0)} [OPTIONS]
