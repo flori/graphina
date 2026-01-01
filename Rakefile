@@ -25,6 +25,10 @@ GemHadar do
 
   readme      'README.md'
 
+  changelog do
+    filename 'CHANGES.md'
+  end
+
   github_workflows(
     'static.yml' => {}
   )
