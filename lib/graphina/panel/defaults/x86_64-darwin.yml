@@ -1,3 +1,8 @@
+# CPU Usage and Temperature Monitoring
+#
+# These panels monitor CPU performance metrics on macOS systems.
+# Uses system commands to gather real-time data for visualization.
+
 cpu_usage_percentage:
   title: "CPU Usage %"
   interval: 1
@@ -5,6 +10,7 @@ cpu_usage_percentage:
     top -l 1 -n 0 | awk '/^CPU usage:/ { printf "%.1f", $3 + $5 }'
   format_value: as_percent
   color: '#fe8019'
+
 cpu_temperature:
   title: "CPU Temperature ℃ "
   interval: 1
@@ -12,6 +18,7 @@ cpu_temperature:
     osx-cpu-temp -C | tr -dc '0-9.'
   format_value: as_celsius
   color: '#fb4934'
+
 cpu_clock_average:
   title: "CPU Clock Speed Hz"
   interval: 1
@@ -19,6 +26,12 @@ cpu_clock_average:
     sudo powermetrics --show-usage-summary -s cpu_power -i 100 -n 9 | awk '/CPU Average frequency as fraction of nominal: / { count++; gsub(/[^0-9.]/, "", $9); sum += $9 } END { if (count > 0) { print 1000000 * sum / count } else { print 0 } }'
   format_value: as_hertz
   color: '#b8bb26'
+
+# Memory Usage Monitoring
+#
+# These panels track memory utilization on macOS systems.
+# Provides both absolute usage and percentage values.
+
 memory_usage:
   title: "Memory Usage"
   interval: 1
@@ -26,6 +39,7 @@ memory_usage:
     free -b | awk '/^Mem:/ { print $4 }'
   format_value: as_bytes
   color: '#fabd2f'
+
 memory_usage_percentage:
   title: "Memory Usage %"
   interval: 1

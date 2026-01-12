@@ -1,3 +1,9 @@
+# CPU Monitoring
+#
+# These panels monitor CPU performance metrics on Linux systems.
+# Uses standard Linux tools like 'top', 'sensors', and '/proc/cpuinfo' for data
+# collection.
+
 cpu_usage_percentage:
   title: "CPU Usage %"
   interval: 1
@@ -5,6 +11,7 @@ cpu_usage_percentage:
     top -b -n 1 | awk '/^%Cpu\(s\)/ { print $2 + $4 + $6 }'
   format_value: as_percent
   color: '#fe8019'
+
 cpu_temperature:
   title: "CPU Temperature ℃ "
   interval: 1
@@ -12,6 +19,7 @@ cpu_temperature:
     sensors | awk '/^Tctl:/ { print $2 }' | tr -dc '0-9.'
   format_value: as_celsius
   color: '#fb4934'
+
 cpu_clock_average:
   title: "CPU Clock Speed Hz"
   interval: 1
@@ -19,17 +27,149 @@ cpu_clock_average:
     awk '/cpu MHz/ {sum += $4; count++} END {if (count > 0) print 1000000 * sum/count}' /proc/cpuinfo
   format_value: as_hertz
   color: '#b8bb26'
+
+# Memory Usage Monitoring
+#
+# These panels track memory utilization on Linux systems.
+# Provides both absolute usage and percentage values using the 'free' command.
+
 memory_usage:
   title: "Memory Usage"
   interval: 1
   command: |
     free -b | awk '/^Mem:/ { print $3 }'
   format_value: as_bytes
-  color: '#689d6a'
+  color: '#fabd2f'
+
 memory_usage_percentage:
   title: "Memory Usage %"
   interval: 1
   command: |
     free -b | awk '/^Mem:/ { printf "%.1f", 100 * $3 / $2 }'
   format_value: as_percent
+  color: '#fabd2f'
+
+# Hardware Fan Monitoring
+#
+# These panels monitor fan speeds and PWM values for various hardware components.
+# Uses 'sensors' command with JSON output and 'jq' for parsing.
+# Note: Requires 'lm-sensors' package and 'jq' utility to be installed.
+
+# System Fans (Teal group)
+case_fan_rpm:
+  title: "Case Fan RPM"
+  interval: 1
+  command: |
+    sensors -j | jq '."nct6799-isa-0290".fan1.fan1_input'
+  format_value: as_default
+  color: '#83a598'
+
+case_fan_percentage:
+  title: "Case Fan %"
+  interval: 1
+  command: |
+    sensors -j | jq '."nct6799-isa-0290".pwm1.pwm1'
+  format_value: as_percent
+  color: '#83a598'
+
+# CPU Fans (Blue group)
+cpu_fan_rpm:
+  title: "CPU Fan RPM"
+  interval: 1
+  command: |
+    sensors -j | jq '."nct6799-isa-0290".fan2.fan2_input'
+  format_value: as_default
+  color: '#458588'
+
+cpu_fan_percentage:
+  title: "CPU Fan %"
+  interval: 1
+  command: |
+    sensors -j | jq '."nct6799-isa-0290".pwm2.pwm2'
+  format_value: as_percent
+  color: '#458588'
+
+# Pump Fans (Green group)
+pump_fan_rpm:
+  title: "Pump Fan RPM"
+  interval: 1
+  command: |
+    sensors -j | jq '."nct6799-isa-0290".fan7.fan7_input'
+  format_value: as_default
   color: '#689d6a'
+
+pump_fan_percentage:
+  title: "Pump Fan %"
+  interval: 1
+  command: |
+    sensors -j | jq '."nct6799-isa-0290".pwm7.pwm7'
+  format_value: as_percent
+  color: '#689d6a'
+
+# GPU Monitoring
+#
+# These panels monitor AMD GPU performance metrics on Linux systems.
+# Requires 'sensors' with AMDGPU support and 'jq' for JSON parsing.
+# Note: GPU monitoring requires proper hardware support and driver installation.
+
+# GPU Fans (Magenta group)
+gpu_fan_rpm:
+  title: "GPU Fan RPM"
+  interval: 1
+  command: |
+    sensors -j | jq '."amdgpu-pci-0300".fan1.fan1_input'
+  format_value: as_default
+  color: '#b16286'
+
+# GPU Clock Speed Monitoring
+gpu_shaders_clock:
+  title: "GPU SCLK Hz"
+  interval: 1
+  command: |
+    sensors -j | jq '."amdgpu-pci-0300".sclk.freq1_input'
+  format_value: as_hertz
+  color: '#8ec0fc'
+
+gpu_memory_clock:
+  title: "GPU MCLK Hz"
+  interval: 1
+  command: |
+    sensors -j | jq '."amdgpu-pci-0300".mclk.freq2_input'
+  format_value: as_hertz
+  color: '#8ef07c'
+
+# GPU Temperatures
+#
+# These panels monitor various temperature sensors on AMD GPU hardware.
+#
+# The different temperature readings provide insight into GPU thermal
+# performance:
+# - Edge temperature: Core edge temperature sensor
+# - Junction temperature: GPU junction temperature (typically highest)
+# - Memory temperature: GPU memory bank temperature
+#
+# Note: GPU temperature monitoring requires proper AMDGPU driver support and
+# 'sensors' configuration.
+gpu_edge_temperature:
+  title: "GPU Edge Temperature ℃ "
+  interval: 1
+  command: |
+    sensors -j | jq '."amdgpu-pci-0300".edge.temp1_input'
+  format_value: as_celsius
+  color: '#b16286'
+
+gpu_junction_temperature:
+  title: "GPU Junction Temperature ℃ "
+  interval: 1
+  command: |
+    sensors -j | jq '."amdgpu-pci-0300".junction.temp2_input'
+  format_value: as_celsius
+  color: '#b16286'
+
+gpu_memory_temperature:
+  title: "GPU Memory Temperature ℃ "
+  interval: 1
+  command: |
+    sensors -j | jq '."amdgpu-pci-0300".mem.temp3_input'
+  format_value: as_celsius
+  color: '#b16286'
