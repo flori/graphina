@@ -25,11 +25,11 @@ memory_usage:
   command: |
     free -b | awk '/^Mem:/ { print $4 }'
   format_value: as_bytes
-  color: '#689d6a'
+  color: '#fabd2f'
 memory_usage_percentage:
   title: "Memory Usage %"
   interval: 1
   command: |
     free -b | awk '/^Mem:/ { printf "%.1f", 100 * $4 / $2 }'
   format_value: as_percent
-  color: '#689d6a'
+  color: '#fabd2f'
