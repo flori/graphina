@@ -1,5 +1,25 @@
 # Changes
 
+## 2026-01-12 v0.5.0
+
+- Added `CHANGES.md` file to track version history and changes
+- Added `changelog` section to `Rakefile` to include `CHANGES.md` in gem build
+  process
+- Updated `rubygems_version` from **4.0.2** to **4.0.3**
+- Updated `gem_hadar` development dependency from **~> 2.10** to **>= 2.16.2**
+- Added GPU monitoring sections to **x86_64-linux.yml** with fan, clock, and
+  temperature panels
+- Enhanced **x86_64-linux.yml** with hardware fan monitoring support for case,
+  CPU, and pump fans
+- Introduced new documentation headers for **arm64-darwin.yml**,
+  **x86_64-darwin.yml**, and **x86_64-linux.yml**
+- Updated memory usage color from **`#689d6a`** to **`#fabd2f`** in
+  **x86_64-linux.yml**
+- Standardized color schemes across all platform configurations
+- Added detailed inline documentation for the `usage` method with comprehensive help text
+- Included descriptive comments at the top of the file explaining Graphina's
+  purpose and features
+
 ## 2025-12-19 v0.4.1
 
 - Updated `gem_hadar` development dependency from version **2.8** to **2.10**
