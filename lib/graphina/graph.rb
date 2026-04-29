@@ -53,6 +53,7 @@ class Graphina::Graph
   # @param format_value [ Proc, Symbol, nil ] formatting strategy for
   #   displaying values
   # @param sleep [ Numeric ] time in seconds between updates
+  # @param true_coloring [ Boolean ] enable true coloring support
   # @param color [ Object, Proc, nil ] color or proc or nil. nil
   #   determineicolor dynamically from the title
   # @param color_secondary [ Object, nil ] secondary color or nil
@@ -172,7 +173,7 @@ class Graphina::Graph
             else
               @display.at(iy, x).on_color(color).color(color_secondary).write(?▄)
             end
-          else
+          when :single
             @display.at(iy, x).on_color(color).color(color_secondary).write(' ')
           end
         end
