@@ -396,28 +396,6 @@ class Graphina::Graph
     end
   end
 
-
-  # The normalize_value method converts a value to its appropriate numeric
-  # representation
-  #
-  # This method takes an input value and normalizes it to either a Float or
-  # Integer type depending on its original form. If the value is already a
-  # Float, it is returned as-is. For all other types, the method attempts to
-  # convert the value to an integer using to_i
-  #
-  # @param value [ Object ] the value to be normalized
-  #
-  # @return [ Float, Integer ] the normalized numeric value as either a Float
-  #   or Integer
-  def normalize_value(value)
-    case value
-    when Float
-      value
-    else
-      value.to_i
-    end
-  end
-
   # The full_reset method performs a complete reset of the display and terminal
   # state
   #
