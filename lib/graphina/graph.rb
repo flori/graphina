@@ -55,7 +55,7 @@ class Graphina::Graph
   # @param sleep [ Numeric ] time in seconds between updates
   # @param true_coloring [ Boolean ] enable true coloring support
   # @param color [ Object, Proc, nil ] color or proc or nil. nil
-  #   determineicolor dynamically from the title
+  #   determine color dynamically from the title
   # @param color_secondary [ Object, nil ] secondary color or nil
   #   for enhanced visuals, nil derives secondary color from (primary) color
   # @param adjust_brightness [ Symbol ] the method to call on the color for
@@ -71,6 +71,7 @@ class Graphina::Graph
   # @raise [ ArgumentError ] if the sleep parameter is negative
   # @raise [ TypeError ] if the sleep parameter is not numeric
   # @raise [ ArgumentError ] if the resolution parameter is not :single or :double
+  # @raise [ ArgumentError ] if the adjust_brightness parameter is not :lighten or :darken
   def initialize(
     title:,
     value:                        -> i { 0 },
@@ -238,6 +239,10 @@ class Graphina::Graph
     stop
   end
 
+  # The perform method is a thin wrapper around Kernel#print that
+  # centralizes all terminal output through a single call site.
+  #
+  # @param a [ Array ] the arguments to print to the terminal
   def perform(*a)
     print(*a)
   end

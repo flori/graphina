@@ -3,8 +3,8 @@ class Graphina::Graph
   # styling support
   #
   # The Display class provides functionality for creating and managing
-  # terminal-based visual displays It handles cell-level rendering with support
-  # for colors, background colors, and text styles The class maintains internal
+  # terminal-based visual displays. It handles cell-level rendering with support
+  # for colors, background colors, and text styles. The class maintains internal
   # state for cursor position and formatting attributes while providing methods
   # to manipulate individual cells and render complete display grids to the
   # terminal
@@ -113,6 +113,9 @@ class Graphina::Graph
     #
     # @return [ String ] a string containing ANSI escape sequences for
     #   rendering only the changed cells
+    #
+    # @raise [ ArgumentError ] raised when the old display dimensions don't
+    #   match the current display dimensions
     def -(old)
       dimensions != old.dimensions and raise ArgumentError,
         "old dimensions #{old.dimensions.inspect} don't match #{dimensions.inspect}"

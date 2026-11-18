@@ -88,6 +88,10 @@ class Graphina::Panel
     end
   end
 
+  # The title accessor method provides read and write access to the title
+  # attribute
+  #
+  # @attr [ String ] title the title to display at the bottom of the graph
   attr_accessor :title
 
   # The interval reader method provides access to the interval attribute that
