@@ -1,5 +1,42 @@
 # Changes
 
+## 2026-11-19 v0.6.0
+
+### Fixes
+
+- Corrected typo in `Graph#initialize` documentation: "determineicolor" to
+  "determine color".
+- Fixed missing periods in `Display` class documentation to resolve run-on
+  sentences.
+
+### Improvements
+
+- Removed unused `normalize_value` method from `Graphina::Graph`.
+- Replaced `else` clause with explicit `when :single` in
+  `Graphina::Graph#draw_graph` to explicitly support the `:single` resolution
+  mode.
+- Added descriptive header comments to `lib/graphina/version.rb`.
+- Removed redundant Vim modeline comments from `Gemfile` and `Rakefile`.
+
+### Build & CI
+
+- Updated `rubygems_version` to **4.0.24** in `graphina.gemspec`.
+- Updated `gem_hadar` development dependency requirement to `>= 2.24.1` in
+  `graphina.gemspec`.
+
+### Documentation
+
+- Added missing `@raise` documentation for `adjust_brightness` in
+  `Graph#initialize`.
+- Added YARD documentation for the private `Graph#perform` method.
+- Added missing `@raise` documentation for dimension mismatch in `Display#-`.
+- Added `@attr` documentation for `Panel#title` accessor.
+- Added documentation for the `true_coloring` parameter in
+  `Graphina::Graph#initialize`.
+- Rewrote `.contexts/yard.md` from a cheatsheet into a documentation guide for
+  AI assistants, including a complete `Document` class example and rules for
+  generating YARD comments.
+
 ## 2026-01-12 v0.5.0
 
 - Added `CHANGES.md` file to track version history and changes
